@@ -3,6 +3,7 @@
 	"displayName": "Shortcuts on Touchbar",
 	"description": "Develop faster with missing touches with the touchbar.",
 	"version": "0.0.1",
+	"publisher": "robinj",
 	"engines": {
 		"vscode": "^1.55.0"
 	},
