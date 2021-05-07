@@ -11,6 +11,7 @@
 		"Other"
 	],
 	"activationEvents": [
+		"onCommand:extension.parentheses",
 		"onCommand:extension.squareBrackets",
 		"onCommand:extension.curlyBrackets",
 		"onCommand:extension.stringInterpolation"
@@ -19,21 +20,29 @@
 	"contributes": {
         "commands": [
             {
+                "command": "extension.parentheses",
+                "title": "()"
+            },
+			{
                 "command": "extension.squareBrackets",
-                "title": "[...]"
+                "title": "[]"
             },
 			{
                 "command": "extension.curlyBrackets",
-                "title": "{...}"
+                "title": "{}"
             },
 			{
                 "command": "extension.stringInterpolation",
-                "title": "`...`"
+                "title": "``"
             }
         ],
         "menus": {
             "touchBar": [
                 {
+                    "command": "extension.parentheses",
+                    "group": "editing"
+                },
+				{
                     "command": "extension.squareBrackets",
                     "group": "editing"
                 },

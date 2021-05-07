@@ -5,36 +5,36 @@ import * as vscode from 'vscode';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-	let squareBrackets = vscode.commands.registerCommand('extension.squareBrackets', () => {
-		wrapSelection('[', ']');
-	});
-
-	let curlyBrackets = vscode.commands.registerCommand('extension.curlyBrackets', () => {
-		wrapSelection('{', '}');
-	});
-
-	let stringInterpolation = vscode.commands.registerCommand('extension.stringInterpolation', () => {
-		wrapSelection('\`');
-	});
-
-
-
 	context.subscriptions.push(
-		squareBrackets,
-		curlyBrackets,
-		stringInterpolation);
+		registerShortcut('extension.parentheses', '(', ')'),
+		registerShortcut('extension.curlyBrackets', '{', '}'),
+		registerShortcut('extension.stringInterpolation', '\`'),
+		registerShortcut('extension.squareBrackets', '[', ']')
+	);
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() { }
 
 /**
+ * Registers a command.
+ * @param name Name of the command
+ * @param first First character added to the selection. 
+ * @param last Last character added to the selection. If the ```last``` character is not specified, then the ```start``` chararcter will be used.
+ * @returns A registered command (Disposable)
+ */
+function registerShortcut(name: string, first: string, last: string = first): vscode.Disposable {
+	return vscode.commands.registerCommand(name, () => {
+		wrapSelection(first, last);
+	});
+}
+
+/**
  * Wraps specific characters arount selected text.
- * @param first First character added to the selection. If the ```last``` character is not specified, then the ```start``` chararcter will be used.
+ * @param first First character added to the selection. 
  * @param last Last character added to the selection.
  */
-function wrapSelection(first: string, last?: string): void {
+function wrapSelection(first: string, last: string): void {
 	let editor = vscode.window.activeTextEditor;
 	if (editor) {
 		let selection = editor.selection;
@@ -43,7 +43,7 @@ function wrapSelection(first: string, last?: string): void {
 		let text = editor.document.getText(selection);
 
 		editor.edit(editBuilder => {
-			editBuilder.replace(selection, first + text + (last ?? first));
+			editBuilder.replace(selection, first + text + last);
 		});
 
 		if (selection.isEmpty) {
